@@ -50,5 +50,9 @@ typedef struct{
   void read_file_header(FILE* file,FILEHEADER **fileheader);
   void read_info_header(FILE *file,INFOHEADER **infoheader);
   void read_image(FILE *file,PIXEL ***image,int height,int width);
+  void write_gray_file_header(FILE * file,FILEHEADER *fileheader);
+  void write_gray_info_header(FILE * w_file,INFOHEADER * infoheader);
+  void write_gray_pixels(FILE * w_file,PIXEL **image,int height,int width);
+  void print_list(FILEHEADER *fileheader,INFOHEADER *infoheader);
 
 #endif
