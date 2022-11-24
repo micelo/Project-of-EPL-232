@@ -111,6 +111,7 @@ int main(){
   }
   read_image(file,&image,infoheader->biHeight,infoheader->biWidth);
     printf("\n");
+  /*GRAYSCALE */
   for(int i = 0 ; i < infoheader->biHeight;i++){
 
     for(int j = 0 ;j < infoheader->biWidth;j++){
