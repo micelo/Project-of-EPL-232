@@ -2,6 +2,10 @@
 #ifndef HEADER_FILE
 #define HEADER_FILE
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 const int BYTES_PER_PIXEL = 3;
 const int FILE_HEADER_SIZE = 14;
 const int INFO_HEADER_SIZE = 40;

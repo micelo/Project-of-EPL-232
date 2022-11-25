@@ -69,6 +69,7 @@ void write_gray_info_header(FILE * w_file,INFOHEADER * infoheader){
 
 }
 void write_gray_pixels(FILE * w_file,PIXEL **image,int height,int width){
+    int padding = ((width*3)%4 == 0) ? 0:1;
     for(int i = 0 ;i < height;i++){
         for(int j = 0;j < width;j++){
             fwrite(&image[i][j].r,1,1,w_file);
@@ -76,8 +77,8 @@ void write_gray_pixels(FILE * w_file,PIXEL **image,int height,int width){
             fwrite(&image[i][j].b,1,1,w_file);
 
         }
-        
-        fwrite(&tmp,3,1,w_file);
+        int tmp = 0;
+        if(padding)fwrite(&tmp,3,1,w_file);
     }
     fwrite(&tmp,1,1,w_file);
     fwrite(&tmp,1,1,w_file);
