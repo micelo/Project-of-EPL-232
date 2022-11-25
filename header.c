@@ -83,13 +83,7 @@ void write_gray_pixels(FILE * w_file,PIXEL **image,int height,int width){
     fwrite(&tmp,1,1,w_file);
     fclose(w_file);
 }
-void print_list(FILEHEADER * fileheader,INFOHEADER * infoheader){
-    printf("BITMAP_FILE_HEADER\n");
-    printf("==================\n");
-    printf("bfType: %c%c\n,fileheader.bfType,file");
 
-
-}
 int main(){
   FILE * file = fopen("4x3.bmp","r");
   FILE * gray_file = fopen("4x3_gray.bmp", "w+");
