@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <math.h>
 #include "header.h"
 
 
@@ -14,20 +15,6 @@ void free_image_mem(PIXEL ***image_grayscale,int height,int width);
 void write_gray_info_header(FILE * w_file,INFOHEADER * infoheader);
 void write_gray_file_header(FILE * w_file,FILEHEADER * fileheader);
 void write_gray_pixels(FILE * w_file,PIXEL **image_grayscale,int height,int width);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

@@ -35,3 +35,9 @@ int check_file(FILEHEADER * fileheader,INFOHEADER * infoheader){
 
     return 1;
 }
+
+/*
+int main(){
+    return 0;
+}
+*/

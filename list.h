@@ -13,35 +13,4 @@ int check_file(FILEHEADER * fileheader,INFOHEADER * infoheader);
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #endif

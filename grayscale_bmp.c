@@ -30,8 +30,9 @@ void cpy_to_image_grayscale(PIXEL ***image_grayscale,PIXEL ** image,int height,i
 void to_grayscale(PIXEL *** image_grayscale,int height,int width){
     int cnt = 0;
     for(int i = 0 ;i < height;i++){
-        cnt = 0;
+       
         for(int j = 0 ;j < width;j++){
+            cnt=0;
             cnt += roundf((*image_grayscale)[i][j].r * 0.299);
             cnt += roundf((*image_grayscale)[i][j].g * 0.587);
             cnt += roundf((*image_grayscale)[i][j].b * 0.114);
@@ -55,7 +56,6 @@ void write_gray_pixels(FILE * w_file,PIXEL **image_grayscale,int height,int widt
     int tmp = 0;
     fwrite(&tmp,1,1,w_file);
     fwrite(&tmp,1,1,w_file);
-    fclose(w_file);
 }
 
 void write_gray_file_header(FILE * w_file,FILEHEADER * fileheader){
@@ -82,10 +82,10 @@ void write_gray_info_header(FILE * w_file,INFOHEADER * infoheader){
 
 }
 
-
+/*
 int main(){
 
 
 
     return 0;
-}
+}*/

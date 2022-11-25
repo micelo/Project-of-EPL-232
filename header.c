@@ -46,15 +46,15 @@ void read_image(FILE *file,PIXEL ***image,int height,int width){
       if(padding)fseek(file,3,SEEK_CUR);
     }
 }
-void write_gray_file_header(FILE * w_file,FILEHEADER * fileheader){
+/*oid write_gray_file_header(FILE * w_file,FILEHEADER * fileheader){
     fwrite(&fileheader->bfType1,1,1,w_file);
     fwrite(&fileheader->bfType2,1,1,w_file);
     fwrite(&fileheader->bfSize,4,1,w_file);
     fwrite(&fileheader->bfReserved1,2,1,w_file);
     fwrite(&fileheader->bfReserved2,2,1,w_file);
     fwrite(&fileheader->bfOffBits,4,1,w_file);
-}
-void write_gray_info_header(FILE * w_file,INFOHEADER * infoheader){
+}*/
+/*void write_gray_info_header(FILE * w_file,INFOHEADER * infoheader){
     fwrite(&infoheader->biSize,4,1,w_file);
     fwrite(&infoheader->biWidth,4,1,w_file);
     fwrite(&infoheader->biHeight,4,1,w_file);
@@ -83,8 +83,13 @@ void write_gray_pixels(FILE * w_file,PIXEL **image,int height,int width){
     fwrite(&tmp,1,1,w_file);
     fwrite(&tmp,1,1,w_file);
     fclose(w_file);
-}
+}*/
+/*
+int main(){
 
+  return 0;
+}*/
+/*
 int main(){
   FILE * file = fopen("4x3.bmp","r");
   FILE * gray_file = fopen("4x3_gray.bmp", "w+");
@@ -106,7 +111,7 @@ int main(){
   }
   read_image(file,&image,infoheader->biHeight,infoheader->biWidth);
     printf("\n");
-  /*GRAYSCALE */
+  //GRAYSCALE 
   for(int i = 0 ; i < infoheader->biHeight;i++){
 
     for(int j = 0 ;j < infoheader->biWidth;j++){
@@ -137,3 +142,4 @@ int main(){
 
 
 }
+*/

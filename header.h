@@ -6,9 +6,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-const int BYTES_PER_PIXEL = 3;
-const int FILE_HEADER_SIZE = 14;
-const int INFO_HEADER_SIZE = 40;
+//#define BYTES_PER_PIXEL 3
+//#define FILE_HEADER_SIZE 14;
+//const int INFO_HEADER_SIZE = 40;
 
 
 typedef unsigned char byte;
