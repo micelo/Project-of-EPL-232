@@ -104,7 +104,7 @@ void write_info_header(FILE * w_file,INFOHEADER * infoheader){
     fwrite(&infoheader->biClrImportant,4,1,w_file);
 }
 
-
+/*
 int main(){
     //printf("THIS IS A TEST : %s\n",decode(_toBin(95),4));
     //printf("THIS IS A TEST : %u\n",(dword)_toInt(decode(_toBin(test),4)));
@@ -128,4 +128,4 @@ int main(){
     write_image_to_decoded_file(decoded_file,decoded_image,infoheader->biHeight,infoheader->biWidth);
     fclose(file);
     fclose(decoded_file);
-}
+}*/

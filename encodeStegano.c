@@ -3,8 +3,9 @@
 #include<string.h>
 #include<math.h>
 #include "header.h"
+#include "encodeStegano.h"
 
-char * _toBin(int n){
+char * _toBin_en(int n){
     int c, d, t;
   char *p;
 
@@ -43,7 +44,7 @@ char * _encode(char * _Cov, int bitNum, char * _toHide){
     return p;
 }
 
-int _toInt(char * binary){
+int _toInt_en(char * binary){
     int pow = 1;
     int res = 0;
     for(int i = 7; i >=0 ; i--){
@@ -69,7 +70,7 @@ void write_image_to_encoded_file(FILE * w_file,PIXEL ** encoded_image,int height
     fwrite(&tmp,1,1,w_file);
     
 }
-void write_file_header(FILE * w_file,FILEHEADER * fileheader){
+void write_file_header_en(FILE * w_file,FILEHEADER * fileheader){
     fwrite(&fileheader->bfType1,1,1,w_file);
     fwrite(&fileheader->bfType2,1,1,w_file);
     fwrite(&fileheader->bfSize,4,1,w_file);
@@ -78,7 +79,7 @@ void write_file_header(FILE * w_file,FILEHEADER * fileheader){
     fwrite(&fileheader->bfOffBits,4,1,w_file);
 }
 
-void write_info_header(FILE * w_file,INFOHEADER * infoheader){
+void write_info_header_en(FILE * w_file,INFOHEADER * infoheader){
     fwrite(&infoheader->biSize,4,1,w_file);
     fwrite(&infoheader->biWidth,4,1,w_file);
     fwrite(&infoheader->biHeight,4,1,w_file);
@@ -96,9 +97,9 @@ void write_info_header(FILE * w_file,INFOHEADER * infoheader){
 void create_encoded_image(PIXEL *** encoded_image,PIXEL ** cover_image,PIXEL ** toHide_image,int height,int width,int bitNum){
     for(int i = 0 ; i < height;i++){
         for(int j = 0;j < width; j++){
-            (*encoded_image)[i][j].r =(dword) _toInt(_encode(_toBin((int)cover_image[i][j].r),bitNum,_toBin((int)toHide_image[i][j].r)));
-            (*encoded_image)[i][j].g =(dword) _toInt(_encode(_toBin((int)cover_image[i][j].g),bitNum,_toBin((int)toHide_image[i][j].g)));
-            (*encoded_image)[i][j].b =(dword) _toInt(_encode(_toBin((int)cover_image[i][j].b),bitNum,_toBin((int)toHide_image[i][j].b)));
+            (*encoded_image)[i][j].r =(dword) _toInt_en(_encode(_toBin_en((int)cover_image[i][j].r),bitNum,_toBin_en((int)toHide_image[i][j].r)));
+            (*encoded_image)[i][j].g =(dword) _toInt_en(_encode(_toBin_en((int)cover_image[i][j].g),bitNum,_toBin_en((int)toHide_image[i][j].g)));
+            (*encoded_image)[i][j].b =(dword) _toInt_en(_encode(_toBin_en((int)cover_image[i][j].b),bitNum,_toBin_en((int)toHide_image[i][j].b)));
         }
     }
 
@@ -106,7 +107,7 @@ void create_encoded_image(PIXEL *** encoded_image,PIXEL ** cover_image,PIXEL ** 
 
 
 
-
+/*
 int main(){
    // int r = 80; // 0 1 0 1 0 0 0 0 
     //int g = 15; // 0 0 0 0 1 1 1 1
@@ -159,4 +160,4 @@ int main(){
     fclose(cover_file);
     fclose(hide_file);
 
-}
+}*/
