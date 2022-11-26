@@ -37,7 +37,7 @@ char * _encode(char * _Cov, int bitNum, char * _toHide){
         p[i] = _Cov[i];
     }
     for(int i = (8 - bitNum); i < 8 ;i++ ){
-        p[i] = _toHide[i];
+        p[i] = _toHide[i - 8 + bitNum];
     }
     p[8] = '\0';
     return p;
@@ -108,13 +108,13 @@ void create_encoded_image(PIXEL *** encoded_image,PIXEL ** cover_image,PIXEL ** 
 
 
 int main(){
-    //int r = 254; // 1 1 1 1 1 1 1 0
-    //int g = 32;  // 0 0 1 0 0 0 0 0
+   // int r = 80; // 0 1 0 1 0 0 0 0 
+    //int g = 15; // 0 0 0 0 1 1 1 1
     //int b = 4;
     //printf("r : %s, g : %s, b : %s\n",_toBin(r),_toBin(g),_toBin(b));
 
     //printf("changed cover : G with lower 4 bits of : R , result ->  %s\n",_encode(_toBin(g),4,_toBin(r)));
-
+    //printf("encoded_binary: %s\n",_encode(_toBin(80),4,_toBin(15)));
     //printf("TO INTEGER FUNCTION CHECK : THE ENCODED INTEGER FROM BEFORE : %d\n",_toInt(_encode(_toBin(g),4,_toBin(r))));
 
     FILEHEADER * cover_fileheader, * hide_fileheader;
@@ -143,11 +143,14 @@ int main(){
     for(int i = 0 ; i<hide_infoheader->biHeight;i++){
         encoded_image[i] = (PIXEL *)malloc(hide_infoheader->biWidth * sizeof(PIXEL));
     }
-    
+    if(hide_infoheader->biHeight != cover_infoheader->biHeight || hide_infoheader->biWidth != cover_infoheader->biWidth){
+        printf("NOT THE SAME SIZE\n");
+        return 1;
+    }
     read_image(cover_file,&cover_image,cover_infoheader->biHeight,cover_infoheader->biWidth);
     read_image(hide_file,&hide_image,hide_infoheader->biHeight,hide_infoheader->biWidth);
     
-    create_encoded_image(&encoded_image,cover_image,hide_image,hide_infoheader->biHeight,hide_infoheader->biWidth,3);
+    create_encoded_image(&encoded_image,cover_image,hide_image,hide_infoheader->biHeight,hide_infoheader->biWidth,4);
     
     write_file_header(encode_file,hide_fileheader);
     write_info_header(encode_file,hide_infoheader);
