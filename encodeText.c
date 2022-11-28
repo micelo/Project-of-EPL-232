@@ -8,7 +8,7 @@
 #include"header.h"
 
 
-char* readfile(FILE *f) {
+char* readfile_en(FILE *f) {
     long int SIZE_MAX = LONG_MAX;
   if (f == NULL || fseek(f, 0, SEEK_END)) {
     return NULL;
@@ -48,8 +48,8 @@ int getBit(char *m, int n){
     return (int)(bits[_bitOfByte]);    
 }
 
-int * createPermutationFunction(int N,unsigned int systemkey){
-      srand(77);
+int * createPermutationFunction_en(int N,unsigned int systemkey){
+      srand(systemkey);
     int * permutation = malloc(sizeof(int) * N);
     for(int i = 0 ; i < N;i++){
         permutation[i] = i;
@@ -71,7 +71,7 @@ unsigned int right_bit_change(unsigned int a,unsigned int b){
 }
 
 void write_text_to_image(PIXEL *** image, int * permutation,char * m,int height,int width){
-   for(int i = 0 ; i <= (1 + strlen(m))*8 && i< height*width*3; i++){
+   for(int i = 0 ; i < (1 + strlen(m))*8 && i< height*width*3; i++){
 
       int b = getBit(m,i);
       int o = permutation[i];
@@ -88,7 +88,7 @@ void write_text_to_image(PIXEL *** image, int * permutation,char * m,int height,
       }
    }
 }
-
+#ifdef DEBUG
 int main(){
 
   FILE * file = fopen("testing.bmp", "r");
@@ -123,3 +123,4 @@ int main(){
   return 0;
 }
 
+#endif

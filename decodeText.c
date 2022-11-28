@@ -6,7 +6,7 @@
 #include<math.h>
 #include<time.h>
 #include"header.h"
-
+#include"decodeText.h"
 
 
 char* readfile(FILE *f) {
@@ -32,22 +32,6 @@ char* readfile(FILE *f) {
   return buffer;
 }
 
-int getBit(char *m, int n){
-          if(n < 0 && n > (8*strlen(m))){
-            printf("FAILED TO RETRIEVE THE BYTE NEEDED!\n");
-            return -1;
-          }
-          int _textByte = n/8;
-          int _bitOfByte = floor(7 - n%8);
-
-          char c = m[_textByte];
-          char bits[8];
-          for (int i = 0; i < 8; i++)
-          {
-             bits[i] = (c >> i) & 1;
-          }
-    return (int)(bits[_bitOfByte]);    
-}
 
 int * createPermutationFunction(int N,unsigned int systemkey){
   
@@ -67,22 +51,19 @@ int * createPermutationFunction(int N,unsigned int systemkey){
     return permutation;
 }
 
-unsigned int right_bit_change(unsigned int a,unsigned int b){
-  return (a & 254) | b;
-}
-
-void create_string_from_image(PIXEL **image,int N,int * permutation,int height,int width){
+char * create_string_from_image(PIXEL **image,int N,int * permutation,int height,int width,int until){
   int l = 0;
   int pow = 0;
   int o = 0;
-  for(int i = 0 ;i < N && i < (height * width)*3;i+=8){
+  char * res =(char *)malloc(N);
+  int cnt = 0;
+  for(int i = 0 ;i <= N && i < (height * width)*3 && i <= until;i+=8){
       pow = 128;
       l=0;
       for(int j = 0; j < 8;j++){
         o = permutation[i+j];
         int x = o /(width*3);
         int y = o %(width*3) / 3;
-      
         int rgb = o % 3; 
         if(rgb == 0)
         { 
@@ -100,13 +81,14 @@ void create_string_from_image(PIXEL **image,int N,int * permutation,int height,i
 
         pow/=2;
       }
-      if(l == '\0')break;
       
-      printf("%c",l);
+      res[cnt] = l;
+      cnt++;
+      if(l == '\0')break;
       
 
   }
-
+  return res;
 
 }
 

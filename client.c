@@ -6,6 +6,9 @@
 #include"header.h"
 #include"encodeStegano.h"
 #include"decodeStegano.h"
+#include"encodeText.h"
+#include"decodeText.h"
+
 
 int main(int argc,char ** argv){
     FILEHEADER *fileheader =(FILEHEADER *)malloc(sizeof(FILEHEADER));
@@ -140,6 +143,66 @@ int main(int argc,char ** argv){
     fclose(file);
     fclose(decoded_file);
 
+    }
+    else if(strcmp(argv[1],"-encodeText") == 0){
+
+            FILEHEADER * fileheader = (FILEHEADER *)malloc(sizeof(FILEHEADER));
+            INFOHEADER * infoheader = (INFOHEADER *)malloc(sizeof(INFOHEADER));
+            FILE * file = fopen(argv[2],"r");
+            FILE * secret_text = fopen(argv[3],"r");
+            read_file_header(file,&fileheader);
+            read_info_header(file,&infoheader);
+            PIXEL ** image = (PIXEL **)malloc(infoheader->biHeight * sizeof(PIXEL *));
+            for(int i = 0 ; i < infoheader->biHeight;i++){
+                image[i] = (PIXEL *)malloc(infoheader->biWidth * sizeof(PIXEL));
+            }
+            read_image(file,&image,infoheader->biHeight,infoheader->biWidth);
+            char * secret = readfile(secret_text);
+            int length = strlen(secret);
+            printf("the secret message: \n%s\n",secret);
+            printf("LENGTH OF length : %d\n",length);
+            if(length * 8 > infoheader->biHeight * infoheader->biWidth * 3){
+                length = infoheader->biHeight * infoheader->biWidth*3;
+            }
+            int * permutation = createPermutationFunction_en(infoheader->biHeight*infoheader->biWidth*3,(unsigned int)0);
+            char * encoded_file_name = (char *)malloc(strlen(argv[2])+ 5);
+            strcpy(encoded_file_name,"new-");
+            strcat(encoded_file_name,argv[2]);
+            FILE * w_file = fopen(encoded_file_name,"w+");
+            write_file_header(w_file,fileheader);
+            write_info_header(w_file,infoheader);
+            PIXEL ** new_image = (PIXEL **)malloc(infoheader->biHeight*sizeof(PIXEL *));
+            for(int i = 0 ; i < infoheader->biHeight;i++){
+                new_image[i] =(PIXEL *)malloc(infoheader->biWidth*sizeof(PIXEL));
+            }
+
+            write_text_to_image(&image,permutation,secret,infoheader->biHeight,infoheader->biWidth);
+            write_image_to_decoded_file(w_file,image,infoheader->biHeight,infoheader->biWidth);
+            fclose(w_file);
+            free(secret);
+            free(image);
+
+    }
+    else if(strcmp(argv[1],"-decodeText") == 0){
+         FILEHEADER * fileheader = (FILEHEADER *)malloc(sizeof(FILEHEADER));
+         INFOHEADER * infoheader = (INFOHEADER *)malloc(sizeof(INFOHEADER));
+         FILE * file = fopen(argv[2],"r");
+         int length_of_secret = atoi(argv[3]);
+         printf("LENGTH OF SECRET: %d\n",length_of_secret);
+         FILE * w_file = fopen(argv[4],"w+");
+         read_file_header(file,&fileheader);
+         read_info_header(file,&infoheader);
+         PIXEL ** image = (PIXEL **)malloc(infoheader->biHeight * sizeof(PIXEL *));
+         for(int i = 0 ; i < infoheader->biHeight;i++){
+             image[i] = (PIXEL *)malloc(infoheader->biWidth * sizeof(PIXEL));
+         }
+         read_image(file,&image,infoheader->biHeight,infoheader->biWidth);
+         int * permutation = createPermutationFunction(infoheader->biHeight*infoheader->biWidth*3,(unsigned int)0);
+         char * res = create_string_from_image(image,infoheader->biHeight*infoheader->biWidth*3,permutation,infoheader->biHeight,infoheader->biWidth,length_of_secret*8);
+
+
+         fprintf(w_file,"%s",res);
+         fclose(w_file);
     }
 
 return 0;
