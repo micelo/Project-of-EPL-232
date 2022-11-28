@@ -36,7 +36,7 @@ char * _encode(char * _Cov, int bitNum, char * _toHide){
 
     for(int i = 0; i < (8 - bitNum); i++){
         p[i] = _Cov[i];
-    }
+    }  
     for(int i = (8 - bitNum); i < 8 ;i++ ){
         p[i] = _toHide[i - 8 + bitNum];
     }
@@ -109,7 +109,7 @@ void create_encoded_image(PIXEL *** encoded_image,PIXEL ** cover_image,PIXEL ** 
 
 /*
 int main(){
-   // int r = 80; // 0 1 0 1 0 0 0 0 
+    // int r = 80; // 0 1 0 1 0 0 0 0 
     //int g = 15; // 0 0 0 0 1 1 1 1
     //int b = 4;
     //printf("r : %s, g : %s, b : %s\n",_toBin(r),_toBin(g),_toBin(b));
