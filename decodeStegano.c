@@ -1,126 +1,138 @@
-/* 
-* decodeStegano.c the file for the 4th module of the exercise, decoding an image from an image.
-* Copyright (C) 2022-PRESENT ANNA VASILIOU
-* This is free software; you can redistribute it and/or
-* modify it under the terms of the GNU General Public
-* License, see the file COPYING.
-*/
+/*
+ * decodeStegano.c the file for the 4th module of the exercise, decoding an image from an image.
+ * Copyright (C) 2022-PRESENT ANNA VASILIOU
+ * This is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public
+ * License, see the file COPYING.
+ */
 
 /**
  * @file decodeStegano.c
  * @author Anna Vasiliou 1070238
- * @brief This 
+ * @brief This
  * @version 0.1
  * @date 2022-11-29
- * 
+ *
  * @copyright Copyright (c) 2022
  * @bug no known bugs
- * 
+ *
  */
-#include<stdio.h>
-#include<stdlib.h>
-#include<string.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include "header.h"
 #include "decodeStegano.h"
 
-char * _toBin(int n){
+char *_toBin(int n)
+{
     int c, d, t;
-  char *p;
+    char *p;
 
-  t = 0;
-  p = (char*)malloc(32+1);
+    t = 0;
+    p = (char *)malloc(32 + 1);
 
-  if (p == NULL)
-    exit(EXIT_FAILURE);
+    if (p == NULL)
+        exit(EXIT_FAILURE);
 
-  for (c = 7 ; c >= 0 ; c--)
-  {
-    d = n >> c;
+    for (c = 7; c >= 0; c--)
+    {
+        d = n >> c;
 
-    if (d & 1)
-      *(p+t) = 1 + '0';
-    else
-      *(p+t) = 0 + '0';
+        if (d & 1)
+            *(p + t) = 1 + '0';
+        else
+            *(p + t) = 0 + '0';
 
-    t++;
-  }
-  *(p+t) = '\0';
+        t++;
+    }
+    *(p + t) = '\0';
 
-  return  p;
+    return p;
 }
 
-int _toInt(char * binary){
+int _toInt(char *binary)
+{
     int pow = 1;
     int res = 0;
-    for(int i = 7; i >=0 ; i--){
-        res += pow*(int)(binary[i] - '0');
-        pow*=2; 
+    for (int i = 7; i >= 0; i--)
+    {
+        res += pow * (int)(binary[i] - '0');
+        pow *= 2;
     }
-    
+
     return res;
 }
 
-char * decode(char * binary, int bitNum){
-    char * res = (char*)malloc(8 + 1);
+char *decode(char *binary, int bitNum)
+{
+    char *res = (char *)malloc(8 + 1);
 
-    for(int i = 0 ; i < (8-bitNum);i++){
-        res[i] = binary[i+bitNum];
+    for (int i = 0; i < (8 - bitNum); i++)
+    {
+        res[i] = binary[i + bitNum];
     }
-    for(int i = (8-bitNum);i < 8;i++){
+    for (int i = (8 - bitNum); i < 8; i++)
+    {
         res[i] = '0';
     }
     res[8] = '\0';
     return res;
 }
 
-
-
-void create_decoded_image(PIXEL **orig_image,PIXEL ***decoded_image,int height,int width,int bitNum){
-    for(int i = 0 ; i < height ; i++){
-        for(int j = 0 ; j < width ; j++){
-            (*decoded_image)[i][j].r =(dword) _toInt(decode(_toBin((int)orig_image[i][j].r),bitNum));
-            (*decoded_image)[i][j].g =(dword) _toInt(decode(_toBin((int)orig_image[i][j].g),bitNum));
-            (*decoded_image)[i][j].b =(dword) _toInt(decode(_toBin((int)orig_image[i][j].b),bitNum));
+void create_decoded_image(PIXEL **orig_image, PIXEL ***decoded_image, int height, int width, int bitNum)
+{
+    for (int i = 0; i < height; i++)
+    {
+        for (int j = 0; j < width; j++)
+        {
+            (*decoded_image)[i][j].r = (dword)_toInt(decode(_toBin((int)orig_image[i][j].r), bitNum));
+            (*decoded_image)[i][j].g = (dword)_toInt(decode(_toBin((int)orig_image[i][j].g), bitNum));
+            (*decoded_image)[i][j].b = (dword)_toInt(decode(_toBin((int)orig_image[i][j].b), bitNum));
         }
     }
 }
 
-void write_image_to_decoded_file(FILE * w_file,PIXEL ** decoded_image,int height,int width){
-    int padding = ((width*3)%4 == 0) ? 0:1;
+void write_image_to_decoded_file(FILE *w_file, PIXEL **decoded_image, int height, int width)
+{
+    int padding = ((width * 3) % 4 == 0) ? 0 : 1;
     int tmp = 0;
-    for(int i = 0;i < height;i++){
-        for(int j = 0;j < width;j++){
-            fwrite(&(decoded_image[i][j].r),1,1,w_file);
-            fwrite(&(decoded_image[i][j].g),1,1,w_file);
-            fwrite(&(decoded_image[i][j].b),1,1,w_file);
+    for (int i = 0; i < height; i++)
+    {
+        for (int j = 0; j < width; j++)
+        {
+            fwrite(&(decoded_image[i][j].r), 1, 1, w_file);
+            fwrite(&(decoded_image[i][j].g), 1, 1, w_file);
+            fwrite(&(decoded_image[i][j].b), 1, 1, w_file);
         }
-        if(padding)fwrite(&tmp,3,1,w_file);
+        if (padding)
+            fwrite(&tmp, 3, 1, w_file);
     }
-    fwrite(&tmp,1,1,w_file);
-    fwrite(&tmp,1,1,w_file);
-    
+    fwrite(&tmp, 1, 1, w_file);
+    fwrite(&tmp, 1, 1, w_file);
 }
-void write_file_header(FILE * w_file,FILEHEADER * fileheader){
-    fwrite(&fileheader->bfType1,1,1,w_file);
-    fwrite(&fileheader->bfType2,1,1,w_file);
-    fwrite(&fileheader->bfSize,4,1,w_file);
-    fwrite(&fileheader->bfReserved1,2,1,w_file);
-    fwrite(&fileheader->bfReserved2,2,1,w_file);
-    fwrite(&fileheader->bfOffBits,4,1,w_file);
+void write_file_header(FILE *w_file, FILEHEADER *fileheader)
+{
+    fwrite(&fileheader->bfType1, 1, 1, w_file);
+    fwrite(&fileheader->bfType2, 1, 1, w_file);
+    fwrite(&fileheader->bfSize, 4, 1, w_file);
+    fwrite(&fileheader->bfReserved1, 2, 1, w_file);
+    fwrite(&fileheader->bfReserved2, 2, 1, w_file);
+    fwrite(&fileheader->bfOffBits, 4, 1, w_file);
 }
 
-void write_info_header(FILE * w_file,INFOHEADER * infoheader){
-    fwrite(&infoheader->biSize,4,1,w_file);
-    fwrite(&infoheader->biWidth,4,1,w_file);
-    fwrite(&infoheader->biHeight,4,1,w_file);
-    fwrite(&infoheader->biPlanes,2,1,w_file);
-    fwrite(&infoheader->biBitCount,2,1,w_file);
-    fwrite(&infoheader->biCompression,4,1,w_file);
-    fwrite(&infoheader->biSizeImage,4,1,w_file);
-    fwrite(&infoheader->biXPelsPerMeter,4,1,w_file);
-    fwrite(&infoheader->biYPelsPerMeter,4,1,w_file);
-    fwrite(&infoheader->biClrUsed,4,1,w_file);
-    fwrite(&infoheader->biClrImportant,4,1,w_file);
+void write_info_header(FILE *w_file, INFOHEADER *infoheader)
+{
+    fwrite(&infoheader->biSize, 4, 1, w_file);
+    fwrite(&infoheader->biWidth, 4, 1, w_file);
+    fwrite(&infoheader->biHeight, 4, 1, w_file);
+    fwrite(&infoheader->biPlanes, 2, 1, w_file);
+    fwrite(&infoheader->biBitCount, 2, 1, w_file);
+    fwrite(&infoheader->biCompression, 4, 1, w_file);
+    fwrite(&infoheader->biSizeImage, 4, 1, w_file);
+    fwrite(&infoheader->biXPelsPerMeter, 4, 1, w_file);
+    fwrite(&infoheader->biYPelsPerMeter, 4, 1, w_file);
+    fwrite(&infoheader->biClrUsed, 4, 1, w_file);
+    fwrite(&infoheader->biClrImportant, 4, 1, w_file);
 }
 
 /*

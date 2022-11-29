@@ -6,11 +6,7 @@
 #include <stdlib.h>
 #include "header.h"
 
-void print_list(FILEHEADER * fileheader,INFOHEADER * infoheader);
-int check_file(FILEHEADER * fileheader,INFOHEADER * infoheader);
-
-
-
-
+void print_list(FILEHEADER *fileheader, INFOHEADER *infoheader);
+int check_file(FILEHEADER *fileheader, INFOHEADER *infoheader);
 
 #endif
