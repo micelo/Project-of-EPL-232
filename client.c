@@ -47,7 +47,15 @@
 int main(int argc,char ** argv){
     FILEHEADER *fileheader =(FILEHEADER *)malloc(sizeof(FILEHEADER));
     INFOHEADER *infoheader =(INFOHEADER *)malloc(sizeof(INFOHEADER));
+    if(argc < 2){
+        printf("TOO FEW COMMAND LINE ARGUMENTS \n");
+        return 1;
+    }
     if(strcmp(argv[1], "-list") == 0){
+        if(argc < 3){
+            printf("FILES NOT GIVEN \n");
+            return 1;
+        }
         int i = 2;
         while(argv[i] != NULL){
         
@@ -58,6 +66,10 @@ int main(int argc,char ** argv){
         }
         read_file_header(file,&fileheader);
         read_info_header(file,&infoheader);
+         if(infoheader->biCompression == 1){
+                printf("THE FILE IS COMPRESSED PLEASE NEXT TIME GIVE A NOT COMPRESSED FILE!\n");
+                return 1;
+            }
         if(check_file(fileheader,infoheader)){
             print_list(fileheader,infoheader);
         }
@@ -66,6 +78,10 @@ int main(int argc,char ** argv){
     }
     else if(strcmp(argv[1],"-grayscale") == 0){
         int i = 2;
+        if(argc < 3){
+            printf("FILES NOT GIVEN \n");
+            return 1;
+        }
         while(argv[i]!= NULL){
             char *gray_file_name =(char *)malloc((strlen(argv[i])+5)*sizeof(char));
             strcpy(gray_file_name,"gray-");
@@ -83,6 +99,10 @@ int main(int argc,char ** argv){
             
             read_file_header(file,&fileheader);
             read_info_header(file,&infoheader);
+            if(infoheader->biCompression == 1){
+                printf("THE FILE IS COMPRESSED PLEASE NEXT TIME GIVE A NOT COMPRESSED FILE!\n");
+                return 1;
+            }
             PIXEL **image;
             alloc_image_mem(&image,infoheader->biHeight,infoheader->biWidth);
             read_image(file,&image,infoheader->biHeight,infoheader->biWidth);
@@ -122,6 +142,10 @@ int main(int argc,char ** argv){
     read_file_header(hide_file,&hide_fileheader);
     read_info_header(cover_file,&cover_infoheader);
     read_info_header(hide_file,&hide_infoheader);
+     if(cover_infoheader->biCompression == 1 || hide_infoheader->biCompression == 1){
+                printf("THE FILE IS COMPRESSED PLEASE NEXT TIME GIVE A NOT COMPRESSED FILE!\n");
+                return 1;
+            }
     cover_image = (PIXEL **)malloc((cover_infoheader->biHeight)*sizeof(PIXEL *));
     for(int i = 0 ; i<cover_infoheader->biHeight;i++){
         cover_image[i] = (PIXEL *)malloc(cover_infoheader->biWidth * sizeof(PIXEL));
