@@ -31,14 +31,13 @@
 #include"encodeText.h"
 #include"decodeText.h"
 
-/**
- * this is a test
-*/
-
 
 
 /**
- * @brief Main method for 
+ * @brief Main method for comparing the arguments given to the names of the modules and 
+ * calling the according functions.
+ * Firstly, allocates memory for the fileheader and the infoheader structure pointers.
+ * For the lis module: Checks the argument and if it matches it opens a file 
  * 
  * @param argc number of arguments
  * @param argv arguments
