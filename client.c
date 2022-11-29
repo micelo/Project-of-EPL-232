@@ -32,6 +32,12 @@
 #include"decodeText.h"
 
 /**
+ * this is a test
+*/
+
+
+
+/**
  * @brief Main method for 
  * 
  * @param argc number of arguments
@@ -44,6 +50,7 @@ int main(int argc,char ** argv){
     if(strcmp(argv[1], "-list") == 0){
         int i = 2;
         while(argv[i] != NULL){
+        
         FILE *file = fopen(argv[i], "r");
         if(file == NULL){
             fprintf(stderr, "ERROR: Can't open file %s\n", argv[2]);
