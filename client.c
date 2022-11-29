@@ -19,12 +19,13 @@
  */
 
 
-
+// asfjjajsngjkansknfkan
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
 #include"list.h"
 #include"grayscale_bmp.h"
+//asjgnjkasnjkgajs
 #include"header.h"
 #include"encodeStegano.h"
 #include"decodeStegano.h"

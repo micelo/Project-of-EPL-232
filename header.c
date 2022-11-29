@@ -8,6 +8,7 @@
 int tmp = 0;
 void read_file_header(FILE *file, FILEHEADER **fileheader)
 {
+  //asnfkjanskfj
 
   fread(&(*fileheader)->bfType1, 1, 1, file);
   fread(&(*fileheader)->bfType2, 1, 1, file);
