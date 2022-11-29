@@ -1,3 +1,25 @@
+/* 
+* client.c the client for using the functions of other libraries for the exercise 4
+* Copyright (C) 2022-PRESENT MICHAIL PANAETOV & ANNA VASILIOU
+* This is free software; you can redistribute it and/or
+* modify it under the terms of the GNU General Public
+* License, see the file COPYING.
+*/
+
+/**
+ * @file client.c
+ * @author Michail Panaetov 1314594, Anna Vasiliou 1070238
+ * @brief This is the client. This file gets the name of each module from command
+ * line and calls the according functions. It includes all the headers of each module.
+ * @version 0.1
+ * @date 2022-11-29
+ * 
+ * @copyright Copyright (c) 2022
+ * @bug no known bugs
+ */
+
+
+
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
@@ -9,7 +31,13 @@
 #include"encodeText.h"
 #include"decodeText.h"
 
-
+/**
+ * @brief Main method for 
+ * 
+ * @param argc number of arguments
+ * @param argv arguments
+ * @return int 
+ */
 int main(int argc,char ** argv){
     FILEHEADER *fileheader =(FILEHEADER *)malloc(sizeof(FILEHEADER));
     INFOHEADER *infoheader =(INFOHEADER *)malloc(sizeof(INFOHEADER));

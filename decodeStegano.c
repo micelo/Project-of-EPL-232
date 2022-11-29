@@ -1,3 +1,22 @@
+/* 
+* decodeStegano.c the file for the 4th module of the exercise, decoding an image from an image.
+* Copyright (C) 2022-PRESENT ANNA VASILIOU
+* This is free software; you can redistribute it and/or
+* modify it under the terms of the GNU General Public
+* License, see the file COPYING.
+*/
+
+/**
+ * @file decodeStegano.c
+ * @author Anna Vasiliou 1070238
+ * @brief This 
+ * @version 0.1
+ * @date 2022-11-29
+ * 
+ * @copyright Copyright (c) 2022
+ * @bug no known bugs
+ * 
+ */
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
