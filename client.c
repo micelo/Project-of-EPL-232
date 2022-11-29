@@ -204,6 +204,48 @@ int main(int argc,char ** argv){
          fprintf(w_file,"%s",res);
          fclose(w_file);
     }
+    else if(strcmp(argv[1],"-stringToImage") == 0){
+         FILEHEADER * fileheader = (FILEHEADER *)malloc(sizeof(FILEHEADER));
+    INFOHEADER * infoheader = (INFOHEADER *)malloc(sizeof(INFOHEADER));
+    FILE * file = fopen(argv[2],"r");
+    read_file_header(file,&fileheader);
+    read_info_header(file,&infoheader);
+    int height = infoheader->biHeight;
+    int width =  infoheader->biWidth;
+    FILE * file_text = fopen(argv[3],"r");
+    char * text = file_read(file_text);
+    PIXEL ** image = (PIXEL **)malloc(height*sizeof(PIXEL *));
+    for(int i = 0 ; i < height;i++){
+        image[i] = (PIXEL *)calloc(sizeof(PIXEL),width);
+    }
+    create_image_with_encoded_text(&image,text,height,width);
+    char * new_file_name = (char *)malloc(strlen("encryptedTextImage.bmp") + 1);
+    strcpy(new_file_name,"encryptedTextImage.bmp\0");
+    FILE * encrypted_image = fopen(new_file_name, "w+");
+    write_file_header(encrypted_image,fileheader);
+    write_info_header(encrypted_image,infoheader);
+    write_image_to_decoded_file(encrypted_image,image,height,width);
+    fclose(encrypted_image);
+    }
+    else if(strcmp(argv[1],"-imageToString") == 0){
+    FILEHEADER * fileheader = (FILEHEADER *)malloc(sizeof(FILEHEADER));
+    INFOHEADER * infoheader = (INFOHEADER *)malloc(sizeof(INFOHEADER));
+    FILE * encrypted_image = fopen(argv[2],"r"); 
+    read_file_header(encrypted_image, &fileheader);
+    read_info_header(encrypted_image, &infoheader);
+    int height = infoheader->biHeight;
+    int width = infoheader->biWidth;
+    PIXEL ** image = (PIXEL **)malloc(height*sizeof(PIXEL *));
+    for(int i = 0 ; i < height ; i++){
+        image[i] = (PIXEL *)malloc(width*sizeof(PIXEL));
+    }
+    read_image(encrypted_image,&image,height,width);
+    FILE * w_file = fopen("outputText.txt","w+");
+    char * decrypted_text = decrypt_text_from_image(image,height,width);
+    //printf("HELLO :\n %s\n",decrypted_text);
+
+    }
 
 return 0;
 }
+//HELLO asfasf a
