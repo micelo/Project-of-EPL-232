@@ -1,6 +1,6 @@
 /*
- * client.c the client for using the functions of other libraries for the exercise 4
- * Copyright (C) 2022-PRESENT MICHAIL PANAETOV & ANNA VASILIOU
+ * grayscale_bmp.h the file for the 2th module of the exercise.
+ * Copyright (C) 2022-PRESENT ANNA VASILIOU
  * This is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public
  * License, see the file COPYING.
@@ -8,7 +8,17 @@
 
 #ifndef GRAYSCALE_FILE
 #define GRAYSCALE_FILE
-
+/**
+ * @file grayscale_bmp.h
+ * @author Anna Vasiliou 1070238
+ * @brief header file for grayscale_bmp.c file
+ * Includes all the function signatures.
+ * @version 0.1
+ * @date 2022-11-30
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>

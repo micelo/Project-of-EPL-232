@@ -1,14 +1,21 @@
 /*
- * client.c the client for using the functions of other libraries for the exercise 4
- * Copyright (C) 2022-PRESENT MICHAIL PANAETOV & ANNA VASILIOU
+ * header.c the file for the first module of the exercise.
+ * Copyright (C) 2022-PRESENT ANNA VASILIOU
  * This is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public
  * License, see the file COPYING.
  */
 
-
-
-
+/**
+ * @file header.c
+ * @author Anna Vasiliou 1070238
+ * @brief This file reads the image and collects information about the file and info header.
+ * @version 0.1
+ * @date 2022-11-30
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -16,9 +23,14 @@
 #include "header.h"
 
 int tmp = 0;
+/**
+ * @brief reads file header
+ * 
+ * @param file  file pointer
+ * @param fileheader fileheader pointer to pointer
+ */
 void read_file_header(FILE *file, FILEHEADER **fileheader)
 {
-  //asnfkjanskfj
 
   fread(&(*fileheader)->bfType1, 1, 1, file);
   fread(&(*fileheader)->bfType2, 1, 1, file);
@@ -27,7 +39,12 @@ void read_file_header(FILE *file, FILEHEADER **fileheader)
   fread(&(*fileheader)->bfReserved2, 2, 1, file);
   fread(&(*fileheader)->bfOffBits, 4, 1, file);
 }
-
+/**
+ * @brief reads info header
+ * 
+ * @param file file pointer
+ * @param infoheader info header pointer to pointer
+ */
 void read_info_header(FILE *file, INFOHEADER **infoheader)
 {
 
@@ -43,7 +60,14 @@ void read_info_header(FILE *file, INFOHEADER **infoheader)
   fread(&(*infoheader)->biClrUsed, 4, 1, file);
   fread(&(*infoheader)->biClrImportant, 4, 1, file);
 }
-
+/**
+ * @brief reads image and adds padding to the image
+ * 
+ * @param file file pointer
+ * @param image pixel pointer to pointer to pointer
+ * @param height height of the image
+ * @param width width of the image
+ */
 void read_image(FILE *file, PIXEL ***image, int height, int width)
 {
 

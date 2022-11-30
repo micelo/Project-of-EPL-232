@@ -1,10 +1,35 @@
+/*
+ * encodeStegano.c the file for the 3th module of the exercise.
+ * Copyright (C) 2022-PRESENT ANNA VASILIOU
+ * This is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public
+ * License, see the file COPYING.
+ */
+
+/**
+ * @file encodeStegano.c
+ * @author Anna Vasiliou 1070238
+ * @brief This file combines a hidden image to a 'cover' image by ;combining the pixels of the two images.
+ * More specificaly, by replacing 1,2,3 or 4 least significant bits of the cover image with the corresponding most 
+ * significant bits of the hidden image.
+ * @version 0.1
+ * @date 2022-11-30
+ * 
+ * @copyright Copyright (c) 2022
+ * @bug no known bugs
+ */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
 #include "header.h"
 #include "encodeStegano.h"
-
+/**
+ * @brief integer to binary representation
+ * 
+ * @param n integer
+ * @return char* binary representation
+ */
 char *_toBin_en(int n)
 {
     int c, d, t;
@@ -31,7 +56,14 @@ char *_toBin_en(int n)
 
     return p;
 }
-
+/**
+ * @brief Encode the bit pattern
+ * 
+ * @param _Cov char pointer to the cover image bit representation
+ * @param bitNum number of bits that were replaced
+ * @param _toHide char pointer to the hidden image bit representation
+ * @return char* 
+ */
 char *_encode(char *_Cov, int bitNum, char *_toHide)
 {
     char *p = (char *)malloc(8 + 1);
@@ -47,7 +79,12 @@ char *_encode(char *_Cov, int bitNum, char *_toHide)
     p[8] = '\0';
     return p;
 }
-
+/**
+ * @brief binary to int
+ * 
+ * @param binary char pointer binary representation
+ * @return int integer number
+ */
 int _toInt_en(char *binary)
 {
     int pow = 1;
@@ -60,7 +97,14 @@ int _toInt_en(char *binary)
 
     return res;
 }
-
+/**
+ * @brief write image to encoded file
+ * 
+ * @param w_file written file
+ * @param encoded_image pixel pointer to pointer
+ * @param height height image
+ * @param width width image
+ */
 void write_image_to_encoded_file(FILE *w_file, PIXEL **encoded_image, int height, int width)
 {
     int padding = ((width * 3) % 4 == 0) ? 0 : 1;
@@ -79,6 +123,12 @@ void write_image_to_encoded_file(FILE *w_file, PIXEL **encoded_image, int height
     fwrite(&tmp, 1, 1, w_file);
     fwrite(&tmp, 1, 1, w_file);
 }
+/**
+ * @brief write file header
+ * 
+ * @param w_file written file
+ * @param fileheader fileheader pointer
+ */
 void write_file_header_en(FILE *w_file, FILEHEADER *fileheader)
 {
     fwrite(&fileheader->bfType1, 1, 1, w_file);
@@ -88,7 +138,12 @@ void write_file_header_en(FILE *w_file, FILEHEADER *fileheader)
     fwrite(&fileheader->bfReserved2, 2, 1, w_file);
     fwrite(&fileheader->bfOffBits, 4, 1, w_file);
 }
-
+/**
+ * @brief write info header
+ * 
+ * @param w_file written file
+ * @param infoheader infoheader pointer
+ */
 void write_info_header_en(FILE *w_file, INFOHEADER *infoheader)
 {
     fwrite(&infoheader->biSize, 4, 1, w_file);
@@ -103,7 +158,16 @@ void write_info_header_en(FILE *w_file, INFOHEADER *infoheader)
     fwrite(&infoheader->biClrUsed, 4, 1, w_file);
     fwrite(&infoheader->biClrImportant, 4, 1, w_file);
 }
-
+/**
+ * @brief Create a encoded image object
+ * 
+ * @param encoded_image pixel pointer to pointer to pointer
+ * @param cover_image pixel pointer to pointer 
+ * @param toHide_image pixel pointer to pointer
+ * @param height height of the image
+ * @param width width of the image
+ * @param bitNum number of bits that are replaced
+ */
 void create_encoded_image(PIXEL ***encoded_image, PIXEL **cover_image, PIXEL **toHide_image, int height, int width, int bitNum)
 {
     for (int i = 0; i < height; i++)

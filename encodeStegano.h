@@ -1,6 +1,24 @@
+/*
+ * encodeStegano.c the file for the 3th module of the exercise.
+ * Copyright (C) 2022-PRESENT ANNA VASILIOU
+ * This is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public
+ * License, see the file COPYING.
+ */
+
 #ifndef ENCODE_STEGANO
 #define ENCODE_STEGANO
-
+/**
+ * @file encodeStegano.h
+ * @author Anna Vasiliou 1070238
+ * @brief header file for encodeStegano.c file
+ * Includes all the function signatures.
+ * @version 0.1
+ * @date 2022-11-30
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
 #include "header.h"
 
 char *_toBin_en(int n);

@@ -1,5 +1,24 @@
+/*
+ * decodeStegano.c the file for the 4th module of the exercise, decoding an image from an image.
+ * Copyright (C) 2022-PRESENT ANNA VASILIOU
+ * This is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public
+ * License, see the file COPYING.
+ */
+
 #ifndef DECODE_STEGANO
 #define DECODE_STEGANO
+/**
+ * @file decodeStegano.h
+ * @author Anna Vasiliou 1070238
+ * @brief header file for decodeStegano.c file
+ * Includes all the function signatures.
+ * @version 0.1
+ * @date 2022-11-30
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
 #include "header.h"
 
 char *_toBin(int n);

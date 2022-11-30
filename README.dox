@@ -1,0 +1,42 @@
+/**
+
+@mainpage EPL232 AS4
+
+@author Anna Vasiliou ID: 1070238 Michail Panaetov ID: 1314594
+
+    This program is used for modifications of .bmp files (images) and using this changes to encrypt text or images in them and etc.
+    
+ * For the list module: Checks the argument and if it matches it opens a file that contains the bmp image
+ * (makes the according checks) and then reads the info and file header of the image and prints these
+ * information as a list. 
+ * 
+ * For the grayscale module: Checks the argument and if it matches it opens a file that contains the bmp image
+ * (makes the according checks) and then reads the info and file header of the image. Then it calls the according
+ * function to change the image information and make it black and white (explained in the grayscale.c file).
+ * 
+ * For the encodeStegano module: Checks the argument and if it matches it opens two files that contain the two bmp images
+ * (the cover and the hiden image). Then it reads the info and file header of each image and makes the according bit
+ * combination calling the corresponding function (explained in the encodeStegano.c file).
+ * 
+ * For the decodeStegano module: Checks the argument and if it matches it opens a file that contains the image that 
+ * will be decoded. Then it reads the info and file header of this image and makes the corresponding functions to
+ * reveal the hiden image.
+ * 
+ * For the encodeText module: Checks the argument and if it matches it opens two files that contain the text that will be
+ * encoded and the image that will contain the text. Then it reads the info and file header of the image and using the 
+ * according permutation function it encodes text in the image (functions explained in the encodeText.c file)
+ *
+ * For the decodeTest module: Checks the argument and if it matches it opens a file that contains the bmp image that
+ * has a hidden message. By reading the file and info header of the bmp image, and using the other permutation function,
+ * it decodes the text hidden in the bmp image.
+ * 
+ * For the StringToImage module: Checks the argument and if it matches it opens a file that contains the sample image 
+ * and the String that is going to be transformed into an image. Then it calls the according functions to do so (explained
+ * int the StringToImage.c file).
+ * 
+ * For the ImageToString module: Checks the argument and if it matches it opens a file that contains the image that
+ * is going to be encrypted. Then it calls the according functions to return the text (explained int the ImageToString.c file)
+
+  This project was not as easy as it looked at first, but it was fun programming it.
+
+*/

@@ -13,7 +13,7 @@
  * line and calls the according functions. It includes all the headers of each module.
  * @version 0.1
  * @date 2022-11-29
- * 
+ *
  * @copyright Copyright (c) 2022
  * @bug no known bugs
  */
@@ -35,14 +35,44 @@
 
 
 /**
- * @brief Main method for comparing the arguments given to the names of the modules and 
+ * @brief Main method for comparing the arguments given to the names of the modules and
  * calling the according functions.
  * Firstly, allocates memory for the fileheader and the infoheader structure pointers.
- * For the lis module: Checks the argument and if it matches it opens a file 
+ *
+ * For the list module: Checks the argument and if it matches it opens a file that contains the bmp image
+ * (makes the according checks) and then reads the info and file header of the image and prints these
+ * information as a list. 
  * 
+ * For the grayscale module: Checks the argument and if it matches it opens a file that contains the bmp image
+ * (makes the according checks) and then reads the info and file header of the image. Then it calls the according
+ * function to change the image information and make it black and white (explained in the grayscale.c file).
+ * 
+ * For the encodeStegano module: Checks the argument and if it matches it opens two files that contain the two bmp images
+ * (the cover and the hiden image). Then it reads the info and file header of each image and makes the according bit
+ * combination calling the corresponding function (explained in the encodeStegano.c file).
+ * 
+ * For the decodeStegano module: Checks the argument and if it matches it opens a file that contains the image that 
+ * will be decoded. Then it reads the info and file header of this image and makes the corresponding functions to
+ * reveal the hiden image.
+ * 
+ * For the encodeText module: Checks the argument and if it matches it opens two files that contain the text that will be
+ * encoded and the image that will contain the text. Then it reads the info and file header of the image and using the 
+ * according permutation function it encodes text in the image (functions explained in the encodeText.c file)
+ *
+ * For the decodeTest module: Checks the argument and if it matches it opens a file that contains the bmp image that
+ * has a hidden message. By reading the file and info header of the bmp image, and using the other permutation function,
+ * it decodes the text hidden in the bmp image.
+ * 
+ * For the StringToImage module: Checks the argument and if it matches it opens a file that contains the sample image 
+ * and the String that is going to be transformed into an image. Then it calls the according functions to do so (explained
+ * int the StringToImage.c file).
+ * 
+ * For the ImageToString module: Checks the argument and if it matches it opens a file that contains the image that
+ * is going to be encrypted. Then it calls the according functions to return the text (explained int the ImageToString.c file)
+ *
  * @param argc number of arguments
  * @param argv arguments
- * @return int 
+ * @return int
  */
 int main(int argc,char ** argv){
     FILEHEADER *fileheader =(FILEHEADER *)malloc(sizeof(FILEHEADER));
@@ -89,24 +119,26 @@ int main(int argc,char ** argv){
         if(check_file(fileheader,infoheader)){
             print_list(fileheader,infoheader);
         }
-        i++;
     }
-    }
-    else if(strcmp(argv[1],"-grayscale") == 0){
+    else if (strcmp(argv[1], "-grayscale") == 0)
+    {
         int i = 2;
-        if(argc < 3){
+        if (argc < 3)
+        {
             printf("FILES NOT GIVEN \n");
             return 1;
         }
-        while(argv[i]!= NULL){
-            char *gray_file_name =(char *)malloc((strlen(argv[i])+5)*sizeof(char));
-            strcpy(gray_file_name,"gray-");
-            strcat(gray_file_name,argv[i]);
-            printf("gray_file_name : %s\n",gray_file_name);
+        while (argv[i] != NULL)
+        {
+            char *gray_file_name = (char *)malloc((strlen(argv[i]) + 5) * sizeof(char));
+            strcpy(gray_file_name, "gray-");
+            strcat(gray_file_name, argv[i]);
+            printf("gray_file_name : %s\n", gray_file_name);
 
-            FILE *w_file = fopen(gray_file_name,"w+");
-            FILE *file = fopen(argv[i],"r");
-            if(file == NULL){
+            FILE *w_file = fopen(gray_file_name, "w+");
+            FILE *file = fopen(argv[i], "r");
+            if (file == NULL)
+            {
                 fprintf(stderr, "ERROR: Can't open file %s\n", argv[i]);
                 return 1;
             }
@@ -131,25 +163,25 @@ int main(int argc,char ** argv){
                 continue;
             }
             PIXEL **image;
-            alloc_image_mem(&image,infoheader->biHeight,infoheader->biWidth);
-            read_image(file,&image,infoheader->biHeight,infoheader->biWidth);
+            alloc_image_mem(&image, infoheader->biHeight, infoheader->biWidth);
+            read_image(file, &image, infoheader->biHeight, infoheader->biWidth);
 
             PIXEL **image_grayscale;
-            alloc_image_mem(&image_grayscale,infoheader->biHeight,infoheader->biWidth);
-            cpy_to_image_grayscale(&image_grayscale,image,infoheader->biHeight,infoheader->biWidth);
-            to_grayscale(&image_grayscale,infoheader->biHeight,infoheader->biWidth);
-            write_gray_file_header(w_file,fileheader);
-            write_gray_info_header(w_file,infoheader);
-            write_gray_pixels(w_file,image_grayscale,infoheader->biHeight,infoheader->biWidth);
+            alloc_image_mem(&image_grayscale, infoheader->biHeight, infoheader->biWidth);
+            cpy_to_image_grayscale(&image_grayscale, image, infoheader->biHeight, infoheader->biWidth);
+            to_grayscale(&image_grayscale, infoheader->biHeight, infoheader->biWidth);
+            write_gray_file_header(w_file, fileheader);
+            write_gray_info_header(w_file, infoheader);
+            write_gray_pixels(w_file, image_grayscale, infoheader->biHeight, infoheader->biWidth);
 
             fclose(file);
             fclose(w_file);
-            
 
             i++;
         }
     }
-    else if(strcmp(argv[1],"-encodeStegano") == 0){
+    else if (strcmp(argv[1], "-encodeStegano") == 0)
+    {
 
         int bitNum = (int)argv[2][0] -'0';
         FILEHEADER * cover_fileheader, * hide_fileheader;
@@ -254,7 +286,8 @@ int main(int argc,char ** argv){
     fclose(decoded_file);
 
     }
-    else if(strcmp(argv[1],"-encodeText") == 0){
+    else if (strcmp(argv[1], "-encodeText") == 0)
+    {
 
             FILEHEADER * fileheader = (FILEHEADER *)malloc(sizeof(FILEHEADER));
             INFOHEADER * infoheader = (INFOHEADER *)malloc(sizeof(INFOHEADER));
@@ -296,12 +329,11 @@ int main(int argc,char ** argv){
                 new_image[i] =(PIXEL *)malloc(infoheader->biWidth*sizeof(PIXEL));
             }
 
-            write_text_to_image(&image,permutation,secret,infoheader->biHeight,infoheader->biWidth);
-            write_image_to_decoded_file(w_file,image,infoheader->biHeight,infoheader->biWidth);
-            fclose(w_file);
-            free(secret);
-            free(image);
-
+        write_text_to_image(&image, permutation, secret, infoheader->biHeight, infoheader->biWidth);
+        write_image_to_decoded_file(w_file, image, infoheader->biHeight, infoheader->biWidth);
+        fclose(w_file);
+        free(secret);
+        free(image);
     }
     else if(strcmp(argv[1],"-decodeText") == 0){
          FILEHEADER * fileheader = (FILEHEADER *)malloc(sizeof(FILEHEADER));
@@ -331,9 +363,8 @@ int main(int argc,char ** argv){
          int * permutation = createPermutationFunction(infoheader->biHeight*infoheader->biWidth*3,(unsigned int)0);
          char * res = create_string_from_image(image,infoheader->biHeight*infoheader->biWidth*3,permutation,infoheader->biHeight,infoheader->biWidth,length_of_secret*8);
 
-
-         fprintf(w_file,"%s",res);
-         fclose(w_file);
+        fprintf(w_file, "%s", res);
+        fclose(w_file);
     }
     else if(strcmp(argv[1],"-stringToImage") == 0){
     FILEHEADER * fileheader = (FILEHEADER *)malloc(sizeof(FILEHEADER));
@@ -400,5 +431,5 @@ int main(int argc,char ** argv){
     char * decrypted_text = decrypt_text_from_image(image,height,width,w_file);
     }
 
-return 0;
+    return 0;
 }
