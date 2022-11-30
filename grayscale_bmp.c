@@ -1,3 +1,11 @@
+/*
+ * client.c the client for using the functions of other libraries for the exercise 4
+ * Copyright (C) 2022-PRESENT MICHAIL PANAETOV & ANNA VASILIOU
+ * This is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public
+ * License, see the file COPYING.
+ */
+
 
 #include "header.h"
 #include "grayscale_bmp.h"
@@ -64,8 +72,10 @@ void write_gray_pixels(FILE *w_file, PIXEL **image_grayscale, int height, int wi
             fwrite(&tmp, 3, 1, w_file);
     }
     int tmp = 0;
-    fwrite(&tmp, 1, 1, w_file);
-    fwrite(&tmp, 1, 1, w_file);
+    // if(padding){
+    // fwrite(&tmp, 1, 1, w_file);
+    // fwrite(&tmp, 1, 1, w_file);
+    // }
 }
 
 void write_gray_file_header(FILE *w_file, FILEHEADER *fileheader)

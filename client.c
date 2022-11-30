@@ -19,18 +19,18 @@
  */
 
 
-// asfjjajsngjkansknfkan
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
 #include"list.h"
 #include"grayscale_bmp.h"
-//asjgnjkasnjkgajs
 #include"header.h"
 #include"encodeStegano.h"
 #include"decodeStegano.h"
 #include"encodeText.h"
 #include"decodeText.h"
+#include"ImageToString.h"
+#include"stringToImage.h"
 
 
 
@@ -47,12 +47,16 @@
 int main(int argc,char ** argv){
     FILEHEADER *fileheader =(FILEHEADER *)malloc(sizeof(FILEHEADER));
     INFOHEADER *infoheader =(INFOHEADER *)malloc(sizeof(INFOHEADER));
-    if(argc < 2){
+    if(argc < 3){
+        printf("*******************************\nclient.c the client for using the functions of other libraries for the exercise 4\nCopyright (C) 2022-PRESENT MICHAIL PANAETOV & ANNA VASILIOU\n");
+ printf("This is free software; you can redistribute it and/or\nmodify it under the terms of the GNU General Public\nLicense, see the file COPYING.\n*******************************\n");
         printf("TOO FEW COMMAND LINE ARGUMENTS \n");
         return 1;
     }
     if(strcmp(argv[1], "-list") == 0){
         if(argc < 3){
+            printf("*******************************\nclient.c the client for using the functions of other libraries for the exercise 4\nCopyright (C) 2022-PRESENT MICHAIL PANAETOV & ANNA VASILIOU\n");
+ printf("This is free software; you can redistribute it and/or\nmodify it under the terms of the GNU General Public\nLicense, see the file COPYING.\n*******************************\n");
             printf("FILES NOT GIVEN \n");
             return 1;
         }
@@ -62,13 +66,25 @@ int main(int argc,char ** argv){
         FILE *file = fopen(argv[i], "r");
         if(file == NULL){
             fprintf(stderr, "ERROR: Can't open file %s\n", argv[2]);
-            return 1;
+            i++;
+            continue;
         }
         read_file_header(file,&fileheader);
         read_info_header(file,&infoheader);
+        if(fileheader->bfType1 != 'B' || fileheader->bfType2 != 'M'){
+            printf("THE FILE GIVEN IS NOT A .BMP FILE!\n");
+            i++;
+            continue;
+        }
          if(infoheader->biCompression == 1){
                 printf("THE FILE IS COMPRESSED PLEASE NEXT TIME GIVE A NOT COMPRESSED FILE!\n");
-                return 1;
+                i++;
+                continue;
+            }
+            if(infoheader->biBitCount != 24){
+                printf("THE FILE GIVEN IS NOT A 24-BIT FILE!\n");
+                i++;
+                continue;
             }
         if(check_file(fileheader,infoheader)){
             print_list(fileheader,infoheader);
@@ -100,9 +116,19 @@ int main(int argc,char ** argv){
             
             read_file_header(file,&fileheader);
             read_info_header(file,&infoheader);
+            if(fileheader->bfType1 != 'B' || fileheader->bfType2 != 'M'){
+            printf("THE FILE GIVEN IS NOT A .BMP FILE!\n");
+            return 1;
+        }
             if(infoheader->biCompression == 1){
                 printf("THE FILE IS COMPRESSED PLEASE NEXT TIME GIVE A NOT COMPRESSED FILE!\n");
-                return 1;
+                i++;
+                continue;
+            }
+            if(infoheader->biBitCount != 24){
+                printf("THE FILE GIVEN IS NOT A 24-BIT FILE!\n");
+                i++;
+                continue;
             }
             PIXEL **image;
             alloc_image_mem(&image,infoheader->biHeight,infoheader->biWidth);
@@ -143,8 +169,20 @@ int main(int argc,char ** argv){
     read_file_header(hide_file,&hide_fileheader);
     read_info_header(cover_file,&cover_infoheader);
     read_info_header(hide_file,&hide_infoheader);
+    if(cover_fileheader->bfType1 != 'B' || cover_fileheader->bfType2 != 'M'){
+            printf("THE FILE GIVEN IS NOT A .BMP FILE!\n");
+            return 1;
+        }
+        if(hide_fileheader->bfType1 != 'B' || hide_fileheader->bfType2 != 'M'){
+            printf("THE FILE GIVEN IS NOT A .BMP FILE!\n");
+            return 1;
+        }
      if(cover_infoheader->biCompression == 1 || hide_infoheader->biCompression == 1){
                 printf("THE FILE IS COMPRESSED PLEASE NEXT TIME GIVE A NOT COMPRESSED FILE!\n");
+                return 1;
+            }
+            if(cover_infoheader->biBitCount != 24 || hide_infoheader->biBitCount != 24){
+                printf("THE FILE GIVEN IS NOT A 24-BIT FILE!\n");
                 return 1;
             }
     cover_image = (PIXEL **)malloc((cover_infoheader->biHeight)*sizeof(PIXEL *));
@@ -188,6 +226,18 @@ int main(int argc,char ** argv){
     FILE * decoded_file = fopen(decoded_file_name, "w+");
     read_file_header(file,&fileheader);
     read_info_header(file,&infoheader);
+    if(fileheader->bfType1 != 'B' || fileheader->bfType2 != 'M'){
+            printf("THE FILE GIVEN IS NOT A .BMP FILE!\n");
+            return 1;
+        }
+     if(infoheader->biCompression == 1){
+                printf("THE FILE IS COMPRESSED PLEASE NEXT TIME GIVE A NOT COMPRESSED FILE!\n");
+                return 1;
+            }
+            if(infoheader->biBitCount != 24){
+                printf("THE FILE GIVEN IS NOT A 24-BIT FILE!\n");
+                return 1;
+            }
     PIXEL ** image, **decoded_image;
     image = (PIXEL **)malloc(infoheader->biHeight * sizeof(PIXEL *));
     decoded_image = (PIXEL **)malloc(infoheader->biHeight * sizeof(PIXEL *));
@@ -212,6 +262,18 @@ int main(int argc,char ** argv){
             FILE * secret_text = fopen(argv[3],"r");
             read_file_header(file,&fileheader);
             read_info_header(file,&infoheader);
+            if(fileheader->bfType1 != 'B' || fileheader->bfType2 != 'M'){
+            printf("THE FILE GIVEN IS NOT A .BMP FILE!\n");
+            return 1;
+        }
+             if(infoheader->biCompression == 1){
+                printf("THE FILE IS COMPRESSED PLEASE NEXT TIME GIVE A NOT COMPRESSED FILE!\n");
+                return 1;
+            }
+            if(infoheader->biBitCount != 24){
+                printf("THE FILE GIVEN IS NOT A 24-BIT FILE!\n");
+                return 1;
+            }
             PIXEL ** image = (PIXEL **)malloc(infoheader->biHeight * sizeof(PIXEL *));
             for(int i = 0 ; i < infoheader->biHeight;i++){
                 image[i] = (PIXEL *)malloc(infoheader->biWidth * sizeof(PIXEL));
@@ -219,8 +281,6 @@ int main(int argc,char ** argv){
             read_image(file,&image,infoheader->biHeight,infoheader->biWidth);
             char * secret = readfile(secret_text);
             int length = strlen(secret);
-            printf("the secret message: \n%s\n",secret);
-            printf("LENGTH OF length : %d\n",length);
             if(length * 8 > infoheader->biHeight * infoheader->biWidth * 3){
                 length = infoheader->biHeight * infoheader->biWidth*3;
             }
@@ -248,10 +308,21 @@ int main(int argc,char ** argv){
          INFOHEADER * infoheader = (INFOHEADER *)malloc(sizeof(INFOHEADER));
          FILE * file = fopen(argv[2],"r");
          int length_of_secret = atoi(argv[3]);
-         printf("LENGTH OF SECRET: %d\n",length_of_secret);
          FILE * w_file = fopen(argv[4],"w+");
          read_file_header(file,&fileheader);
          read_info_header(file,&infoheader);
+         if(fileheader->bfType1 != 'B' || fileheader->bfType2 != 'M'){
+            printf("THE FILE GIVEN IS NOT A .BMP FILE!\n");
+            return 1;
+        }
+          if(infoheader->biCompression == 1){
+                printf("THE FILE IS COMPRESSED PLEASE NEXT TIME GIVE A NOT COMPRESSED FILE!\n");
+                return 1;
+            }
+            if(infoheader->biBitCount != 24){
+                printf("THE FILE GIVEN IS NOT A 24-BIT FILE!\n");
+                return 1;
+            }
          PIXEL ** image = (PIXEL **)malloc(infoheader->biHeight * sizeof(PIXEL *));
          for(int i = 0 ; i < infoheader->biHeight;i++){
              image[i] = (PIXEL *)malloc(infoheader->biWidth * sizeof(PIXEL));
@@ -265,11 +336,23 @@ int main(int argc,char ** argv){
          fclose(w_file);
     }
     else if(strcmp(argv[1],"-stringToImage") == 0){
-         FILEHEADER * fileheader = (FILEHEADER *)malloc(sizeof(FILEHEADER));
+    FILEHEADER * fileheader = (FILEHEADER *)malloc(sizeof(FILEHEADER));
     INFOHEADER * infoheader = (INFOHEADER *)malloc(sizeof(INFOHEADER));
     FILE * file = fopen(argv[2],"r");
     read_file_header(file,&fileheader);
     read_info_header(file,&infoheader);
+    if(fileheader->bfType1 != 'B' || fileheader->bfType2 != 'M'){
+            printf("THE FILE GIVEN IS NOT A .BMP FILE!\n");
+            return 1;
+        }
+     if(infoheader->biCompression == 1){
+                printf("THE FILE IS COMPRESSED PLEASE NEXT TIME GIVE A NOT COMPRESSED FILE!\n");
+                return 1;
+            }
+            if(infoheader->biBitCount != 24){
+                printf("THE FILE GIVEN IS NOT A 24-BIT FILE!\n");
+                return 1;
+            }
     int height = infoheader->biHeight;
     int width =  infoheader->biWidth;
     FILE * file_text = fopen(argv[3],"r");
@@ -279,8 +362,9 @@ int main(int argc,char ** argv){
         image[i] = (PIXEL *)calloc(sizeof(PIXEL),width);
     }
     create_image_with_encoded_text(&image,text,height,width);
-    char * new_file_name = (char *)malloc(strlen("encryptedTextImage.bmp") + 1);
-    strcpy(new_file_name,"encryptedTextImage.bmp\0");
+    char * new_file_name = (char *)malloc(strlen(argv[2]) + 5);
+    strcpy(new_file_name,"new-");
+    strcat(new_file_name,argv[2]);
     FILE * encrypted_image = fopen(new_file_name, "w+");
     write_file_header(encrypted_image,fileheader);
     write_info_header(encrypted_image,infoheader);
@@ -293,6 +377,18 @@ int main(int argc,char ** argv){
     FILE * encrypted_image = fopen(argv[2],"r"); 
     read_file_header(encrypted_image, &fileheader);
     read_info_header(encrypted_image, &infoheader);
+    if(fileheader->bfType1 != 'B' || fileheader->bfType2 != 'M'){
+            printf("THE FILE GIVEN IS NOT A .BMP FILE!\n");
+            return 1;
+        }
+     if(infoheader->biCompression == 1){
+                printf("THE FILE IS COMPRESSED PLEASE NEXT TIME GIVE A NOT COMPRESSED FILE!\n");
+                return 1;
+            }
+            if(infoheader->biBitCount != 24){
+                printf("THE FILE GIVEN IS NOT A 24-BIT FILE!\n");
+                return 1;
+            }
     int height = infoheader->biHeight;
     int width = infoheader->biWidth;
     PIXEL ** image = (PIXEL **)malloc(height*sizeof(PIXEL *));
@@ -300,12 +396,9 @@ int main(int argc,char ** argv){
         image[i] = (PIXEL *)malloc(width*sizeof(PIXEL));
     }
     read_image(encrypted_image,&image,height,width);
-    FILE * w_file = fopen("outputText.txt","w+");
-    char * decrypted_text = decrypt_text_from_image(image,height,width);
-    //printf("HELLO :\n %s\n",decrypted_text);
-
+    FILE * w_file = fopen("outputText.txt","w");
+    char * decrypted_text = decrypt_text_from_image(image,height,width,w_file);
     }
 
 return 0;
 }
-//I AM ANNA VASILIOU

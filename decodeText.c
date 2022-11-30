@@ -1,4 +1,23 @@
 
+/*
+ * decodeText.c module 6 .c file
+ * Copyright (C) 2022-PRESENT MICHAIL PANAETOV & ANNA VASILIOU
+ * This is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public
+ * License, see the file COPYING.
+ */
+
+
+/**
+ * @file decodeText.c
+ * @author Michail Panaetov
+ * @brief DECODING THE TEXT FROM AN ENCODED IMAGE FILE (BMP) THAT WAS ENCODED TO IT USING -encodeText option
+ * @version 0.1
+ * @date 2022-11-30
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -7,7 +26,12 @@
 #include <time.h>
 #include "header.h"
 #include "decodeText.h"
-
+/**
+ * @brief reads a file and stores it as a unique string
+ * 
+ * @param f FILE TO BE READ FROM
+ * @return char* WHOLE TEXT OF THE FILE f
+ */
 char *readfile(FILE *f)
 {
   long int SIZE_MAX = LONG_MAX;
@@ -34,7 +58,13 @@ char *readfile(FILE *f)
 
   return buffer;
 }
-
+/**
+ * @brief Create a Permutation Function out of rand() switches between a f(x) = x function where f: N->N
+ * 
+ * @param N the length of the permutation table
+ * @param systemkey the systemkey to be used
+ * @return int* the permutation table
+ */
 int *createPermutationFunction(int N, unsigned int systemkey)
 {
 
@@ -55,7 +85,17 @@ int *createPermutationFunction(int N, unsigned int systemkey)
 
   return permutation;
 }
-
+/**
+ * @brief Create a string from image object
+ * 
+ * @param image the image content (pixels)
+ * @param N the size of the string (MAX_LENGTH)
+ * @param permutation the permutation table that was created from createPermutationFunction()
+ * @param height the height of the image 
+ * @param width the width of the image
+ * @param until until where to find letters in image
+ * @return char* the text created from image
+ */
 char *create_string_from_image(PIXEL **image, int N, int *permutation, int height, int width, int until)
 {
   int l = 0;

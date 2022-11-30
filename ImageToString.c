@@ -1,3 +1,26 @@
+/*
+ * imageToString.c module 6 .c file
+ * Copyright (C) 2022-PRESENT MICHAIL PANAETOV & ANNA VASILIOU
+ * This is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public
+ * License, see the file COPYING.
+ */
+
+
+
+
+
+
+/**
+ * @file ImageToString.c
+ * @author MICHAIL PANAETOV
+ * @brief creates a string out of the encoded image picture (BMP)
+ * @version 0.1
+ * @date 2022-11-30
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -5,10 +28,18 @@
 #include <math.h>
 #include "header.h"
 #include "decodeStegano.h"
-
-char *decrypt_text_from_image(PIXEL **image, int height, int width)
+/**
+ * @brief decrypt the text from the image
+ * 
+ * @param image the image itself(the pixels)
+ * @param height the height of the image
+ * @param width the width of the image
+ * @param outputFile the outputFile where the string will be printed
+ * @return char* 
+ */
+char *decrypt_text_from_image(PIXEL **image, int height, int width,FILE *outputFile)
 {
-    char *text = (char *)malloc(width * height + 1);
+    char *text = (char *)calloc(sizeof(char),width * height + 1);
     int cnt_of_byte = 0;
     int letter = 0;
     int pow = 128;
@@ -37,7 +68,7 @@ char *decrypt_text_from_image(PIXEL **image, int height, int width)
                     text[pos] = '\0';
                     return text;
                 }
-                printf("%c", letter);
+                fprintf(outputFile,"%c", letter);
                 text[pos] = (char)letter;
                 pos++;
                 pow = 128;
@@ -46,7 +77,7 @@ char *decrypt_text_from_image(PIXEL **image, int height, int width)
             }
         }
     }
-
+    text[pos] = '\0';
     return text;
 }
 
