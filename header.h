@@ -1,13 +1,3 @@
-/*
- * client.c the client for using the functions of other libraries for the exercise 4
- * Copyright (C) 2022-PRESENT MICHAIL PANAETOV & ANNA VASILIOU
- * This is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public
- * License, see the file COPYING.
- */
-
-
-
 
 /*
  * header.h the file for the first module of the exercise.

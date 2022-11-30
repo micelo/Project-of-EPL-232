@@ -119,6 +119,8 @@ int main(int argc,char ** argv){
         if(check_file(fileheader,infoheader)){
             print_list(fileheader,infoheader);
         }
+        i++;
+    }
     }
     else if (strcmp(argv[1], "-grayscale") == 0)
     {
