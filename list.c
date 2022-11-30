@@ -1,15 +1,29 @@
 /*
- * client.c the client for using the functions of other libraries for the exercise 4
- * Copyright (C) 2022-PRESENT MICHAIL PANAETOV & ANNA VASILIOU
+ * list.c the file for the first module of the exercise.
+ * Copyright (C) 2022-PRESENT ANNA VASILIOU
  * This is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public
  * License, see the file COPYING.
  */
 
-
+/**
+ * @file list.c
+ * @author Anna Vasiliou 1070238
+ * @brief This file prints the file and info header of the image.
+ * @version 0.1
+ * @date 2022-11-30
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
 #include "list.h"
 #include "header.h"
-
+/**
+ * @brief prints the file and info header of the image
+ * 
+ * @param fileheader fileheader pointer 
+ * @param infoheader infoheader pointer
+ */
 void print_list(FILEHEADER *fileheader, INFOHEADER *infoheader)
 {
     printf("BITMAP_FILE_HEADER\n");
@@ -36,7 +50,13 @@ void print_list(FILEHEADER *fileheader, INFOHEADER *infoheader)
 
     printf("***************************************************************************\n");
 }
-
+/**
+ * @brief makes the important file checks
+ * 
+ * @param fileheader file header pointer
+ * @param infoheader info header pointer
+ * @return int 
+ */
 int check_file(FILEHEADER *fileheader, INFOHEADER *infoheader)
 {
 

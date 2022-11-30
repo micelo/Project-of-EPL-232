@@ -9,7 +9,7 @@
 /**
  * @file decodeStegano.c
  * @author Anna Vasiliou 1070238
- * @brief This
+ * @brief This file decodes the hidden image from the new image that was created in the encodeStegano module.
  * @version 0.1
  * @date 2022-11-29
  *
@@ -22,7 +22,12 @@
 #include <string.h>
 #include "header.h"
 #include "decodeStegano.h"
-
+/**
+ * @brief Function that converts integer to string binary representation
+ * 
+ * @param n integer number
+ * @return char* character pointer that represents binary number
+ */
 char *_toBin(int n)
 {
     int c, d, t;
@@ -49,7 +54,12 @@ char *_toBin(int n)
 
     return p;
 }
-
+/**
+ * @brief binary representation to integer number
+ * 
+ * @param binary character pointer
+ * @return int integer number
+ */
 int _toInt(char *binary)
 {
     int pow = 1;
@@ -62,7 +72,14 @@ int _toInt(char *binary)
 
     return res;
 }
-
+/**
+ * @brief Decodes a binary string by replacing its 'bitNum' bits with other 
+ * digits (of the other image)
+ * 
+ * @param binary character pointer, binary representation
+ * @param bitNum number of bits that are going to be replaced
+ * @return char* decoded binary representation
+ */
 char *decode(char *binary, int bitNum)
 {
     char *res = (char *)malloc(8 + 1);
@@ -78,7 +95,15 @@ char *decode(char *binary, int bitNum)
     res[8] = '\0';
     return res;
 }
-
+/**
+ * @brief Changes the rgb of the image to create a decoded image.
+ * 
+ * @param orig_image pixel pointer to pointer
+ * @param decoded_image pixel pointer to pointer to pointer 
+ * @param height height of the image
+ * @param width width of the image
+ * @param bitNum number of bits that are going to be replaced
+ */
 void create_decoded_image(PIXEL **orig_image, PIXEL ***decoded_image, int height, int width, int bitNum)
 {
     for (int i = 0; i < height; i++)
@@ -91,7 +116,14 @@ void create_decoded_image(PIXEL **orig_image, PIXEL ***decoded_image, int height
         }
     }
 }
-
+/**
+ * @brief Writes image to the output file using padding.
+ * 
+ * @param w_file file that is going to be written
+ * @param decoded_image pixel pointer to pointer
+ * @param height height of the image
+ * @param width width of the image
+ */
 void write_image_to_decoded_file(FILE *w_file, PIXEL **decoded_image, int height, int width)
 {
     int padding = ((width * 3) % 4 == 0) ? 0 : 1;
@@ -110,6 +142,12 @@ void write_image_to_decoded_file(FILE *w_file, PIXEL **decoded_image, int height
     fwrite(&tmp, 1, 1, w_file);
     fwrite(&tmp, 1, 1, w_file);
 }
+/**
+ * @brief Writes the file header by changing all of the structures fields to the new ones.
+ * 
+ * @param w_file file that is going to be written
+ * @param fileheader fileheader pointer
+ */
 void write_file_header(FILE *w_file, FILEHEADER *fileheader)
 {
     fwrite(&fileheader->bfType1, 1, 1, w_file);
@@ -119,7 +157,12 @@ void write_file_header(FILE *w_file, FILEHEADER *fileheader)
     fwrite(&fileheader->bfReserved2, 2, 1, w_file);
     fwrite(&fileheader->bfOffBits, 4, 1, w_file);
 }
-
+/**
+ * @brief Writes the file header by changing all of the structure fields to the new ones.
+ * 
+ * @param w_file file that is going to be written
+ * @param infoheader infoheader pointer
+ */
 void write_info_header(FILE *w_file, INFOHEADER *infoheader)
 {
     fwrite(&infoheader->biSize, 4, 1, w_file);
